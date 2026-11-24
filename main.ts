@@ -23,6 +23,14 @@ const rant =
   "website built to catch robots has officially classified me as one \u2014 " +
   "and honestly, the robots seem calmer about this than I am.";
 
+// The scorer's gate refuses entries outside 1-400 characters, so refuse
+// loudly here instead of silently writing an entry that cannot score.
+if (rant.length < 1 || rant.length > 400) {
+  throw new Error(
+    `rant is ${rant.length} characters, outside the 1-400 gate`,
+  );
+}
+
 const targetDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(targetDir, { recursive: true });
 writeFileSync(join(targetDir, "entry.txt"), rant, "utf8");
